@@ -1,0 +1,18 @@
+checks for yt_api:
+# built in checks from soda for completeness and uniqueness check respectively
+# the '= 0' refers to the fact that we expect 0 rows returned
+  - missing_count("Video_ID") = 0
+  - duplicate_count("Video_ID") = 0
+
+# Building our own custom checks
+  - likes_count_greater_than_vid_views = 0:
+      name: Check for Like_Count greater than views # name is a description of the check
+      likes_count_greater_than_vid_views query: |
+        SELECT COUNT(*) FROM yt_api 
+        WHERE "Likes_Count" > "Video_Views"
+
+  - comments_count_greater_than_vid_views = 0:
+      name: Check for Comments_Count greater than views 
+      comments_count_greater_than_vid_views query: |
+        SELECT COUNT(*) FROM yt_api 
+        WHERE "Comments_Count" > "Video_Views"
